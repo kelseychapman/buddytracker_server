@@ -4,7 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost/yarn_dev')
+require('./models/Users.js')
+
+var mongoPlayground = require('./routes/mongoPlayground');
 var login = require('./routes/login');
 
 var app = express();
@@ -17,7 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/login', login);
+app.use('/playground', mongoPlayground);
+app.use('/', login);
 
 
 const port = process.env.PORT || 5000;
